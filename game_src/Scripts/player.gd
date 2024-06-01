@@ -76,6 +76,9 @@ func _on_area_2d_area_entered(area):
 	if area is Shroom:
 		handle_shroom_collision(area)
 		area.queue_free()
+	if area is ShootingFlower:
+		handle_flower_collision()
+		area.queue_free()
 		
 func handle_enemy_collision(enemy: Enemy):
 	if enemy == null and is_dead:
@@ -93,14 +96,21 @@ func handle_enemy_collision(enemy: Enemy):
 			spawn_points_labl(enemy)
 		else:
 			die()
-
-func handle_shroom_collision(area: Shroom):
-		if player_mode == PlayerMode.SMALL:
-			set_physics_process(false)
-			animated_sprite_2d.play("small_to_big")
-			set_collision_shape(false)
 		
 
+func handle_shroom_collision(area: Shroom):
+	if player_mode == PlayerMode.SMALL:
+		set_physics_process(false)
+		animated_sprite_2d.play("small_to_big")
+		set_collision_shape(false)
+		
+func handle_flower_collision():
+	set_physics_process(false)
+	var animation_name = "small_to_shooting" if player_mode == PlayerMode.SMALL else "big_to_shooting"
+	animated_sprite_2d.play(animation_name)
+	set_collision_shape(false)
+	
+	
 func spawn_points_labl(enemy: Enemy):
 	var points_label = POINTS_LABEL_SCENE.instantiate()
 	points_label.position = enemy.position + Vector2(-20, -20)

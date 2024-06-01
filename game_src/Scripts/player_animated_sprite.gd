@@ -34,6 +34,9 @@ func _on_animation_finished():
 				get_parent().player_mode = Player.PlayerMode.SMALL
 			Player.PlayerMode.SMALL:
 				get_parent().player_mode = Player.PlayerMode.BIG
+	if animation == "small_to_shooting" or animation == "big_to_shooting":
+		reset_player_properties()
+		get_parent().player_mode = Player.PlayerMode.SHOOTING
 
 func reset_player_properties():
 	offset = Vector2.ZERO
@@ -50,4 +53,4 @@ func _on_frame_changed():
 		if frame_count % 2 == 1:
 			offset = Vector2(0, 0 if player_mode == Player.PlayerMode.BIG else -8)
 		else:
-			offset = Vector2(0, 8 if player_mode == Player.PlayerMode.SMALL else 0)
+			offset = Vector2(0, 8 if player_mode == Player.PlayerMode.BIG else 0)
