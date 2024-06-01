@@ -16,6 +16,7 @@ const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
 
 # References
 @onready var animated_sprite_2d = $AnimatedSprite2D as PlayerAnimatedSprite
+@onready var area_2d = $Area2D
 @onready var area_collision_shape = $Area2D/AreaCollisionShape 
 @onready var body_collision_shape = $BodyCollisionShape
 
@@ -32,6 +33,10 @@ const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
 @export_group("")
 
 var player_mode = PlayerMode.SMALL
+
+# Player states flags
+var is_dead = false
+
 
 func _physics_process(delta):
 	
@@ -56,6 +61,10 @@ func _physics_process(delta):
 		
 	animated_sprite_2d.trigger(velocity, direction, player_mode)
 	
+	var collision = get_last_slide_collision()
+	if collision != null:
+		handle_movement_collision(collision)
+	
 	move_and_slide()
 
 
@@ -64,7 +73,7 @@ func _on_area_2d_area_entered(area):
 		handle_enemy_collision(area)
 		
 func handle_enemy_collision(enemy: Enemy):
-	if enemy == null:
+	if enemy == null and is_dead:
 		return
 		
 	if is_instance_of(enemy, Koopa) and (enemy as Koopa).in_a_shell:
@@ -90,5 +99,25 @@ func on_enemy_stomped():
 	velocity.y = stomp_y_velocity
 
 func die():
-	print("DIE")
+	if player_mode == PlayerMode.SMALL:
+		is_dead = true
+		animated_sprite_2d.play("death")
+
+		area_2d.set_collision_mask_value(3, false)
+		set_collision_layer_value(1, false)
+
+		set_physics_process(false)
+		
+		var death_tween = get_tree().create_tween()
+		death_tween.tween_property(self, "position", position + Vector2(0, -48), 0.5)
+		death_tween.chain().tween_property(self, "position", position + Vector2(0, 256), 1)
+		death_tween.tween_callback(func (): get_tree().reload_current_scene())
+	else:
+		pass
 	
+
+func handle_movement_collision(collision: KinematicCollision2D):
+	if collision.get_collider() is Block:
+		var collision_angle = rad_to_deg(collision.get_angle())
+		if roundf(collision_angle) == 180:
+			(collision.get_collider() as Block).bump(player_mode) 
