@@ -55,8 +55,9 @@ layer_0/tile_data = PackedInt32Array(393202, 0, 0, 458738, 0, 0, 524274, 0, 0, 3
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.75, 2.75)
 
-[node name="Player" parent="." instance=ExtResource("5_qqcol")]
+[node name="Player" parent="." node_paths=PackedStringArray("camera_sync") instance=ExtResource("5_qqcol")]
 position = Vector2(-193, 56)
+camera_sync = NodePath("../Camera2D")
 
 [node name="Brick" parent="." instance=ExtResource("6_t1oui")]
 position = Vector2(-128, 24)
