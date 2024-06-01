@@ -1,0 +1,68 @@
+[gd_scene load_steps=13 format=3 uid="uid://bt5h4wy4thvkh"]
+
+[ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprites/GroundBlock.png" id="1_5leks"]
+[ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprites/HardBlock.png" id="2_8evcl"]
+[ext_resource type="Texture2D" uid="uid://dbhkvad8kmca" path="res://Assets/Sprites/UndergroundBlock.png" id="3_fd7ox"]
+[ext_resource type="Texture2D" uid="uid://dtkrgfs1x5qrr" path="res://Assets/Sprites/UndergroundBrick.png" id="4_vtrhx"]
+[ext_resource type="PackedScene" uid="uid://b4ve7ekp1dftj" path="res://Scenes/player.tscn" id="5_qqcol"]
+[ext_resource type="PackedScene" uid="uid://bmdrhr0q565o" path="res://Scenes/goomba.tscn" id="6_n8i33"]
+[ext_resource type="PackedScene" uid="uid://cu0u2n525xqdh" path="res://Scenes/koopa.tscn" id="7_srww2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g16ps"]
+texture = ExtResource("1_5leks")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n1cse"]
+texture = ExtResource("2_8evcl")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sb3mw"]
+texture = ExtResource("3_fd7ox")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pdcpj"]
+texture = ExtResource("4_vtrhx")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_5e08i"]
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_g16ps")
+sources/1 = SubResource("TileSetAtlasSource_n1cse")
+sources/2 = SubResource("TileSetAtlasSource_sb3mw")
+sources/3 = SubResource("TileSetAtlasSource_pdcpj")
+
+[node name="main" type="Node"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_5e08i")
+format = 2
+layer_0/tile_data = PackedInt32Array(393202, 0, 0, 458738, 0, 0, 524274, 0, 0, 393203, 0, 0, 458739, 0, 0, 524275, 0, 0, 393204, 0, 0, 458740, 0, 0, 524276, 0, 0, 393205, 0, 0, 458741, 0, 0, 524277, 0, 0, 393206, 0, 0, 458742, 0, 0, 524278, 0, 0, 393207, 0, 0, 458743, 0, 0, 524279, 0, 0, 393208, 0, 0, 458744, 0, 0, 524280, 0, 0, 393209, 0, 0, 458745, 0, 0, 524281, 0, 0, 393210, 0, 0, 458746, 0, 0, 524282, 0, 0, 393211, 0, 0, 458747, 0, 0, 524283, 0, 0, 393212, 0, 0, 458748, 0, 0, 524284, 0, 0, 393213, 0, 0, 458749, 0, 0, 524285, 0, 0, 393214, 0, 0, 458750, 0, 0, 524286, 0, 0, 393215, 0, 0, 458751, 0, 0, 524287, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 327681, 0, 0, 393217, 0, 0, 458753, 0, 0, 327682, 0, 0, 393218, 0, 0, 458754, 0, 0, 327683, 0, 0, 393219, 0, 0, 458755, 0, 0, 327684, 0, 0, 393220, 0, 0, 458756, 0, 0, 327685, 0, 0, 393221, 0, 0, 458757, 0, 0, 327686, 0, 0, 393222, 0, 0, 458758, 0, 0, 327687, 0, 0, 393223, 0, 0, 458759, 0, 0, 327688, 0, 0, 393224, 0, 0, 458760, 0, 0, 327689, 0, 0, 393225, 0, 0, 458761, 0, 0, 327690, 0, 0, 393226, 0, 0, 458762, 0, 0, 327691, 0, 0, 393227, 0, 0, 458763, 0, 0, 327692, 0, 0, 393228, 0, 0, 458764, 0, 0, 327693, 0, 0, 393229, 0, 0, 458765, 0, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.75, 2.75)
+
+[node name="Player" parent="." instance=ExtResource("5_qqcol")]
+position = Vector2(-193, 56)
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Goomba" parent="Enemies" instance=ExtResource("6_n8i33")]
+position = Vector2(-51, -0.216187)
+
+[node name="Koopa" parent="Enemies" instance=ExtResource("7_srww2")]
+position = Vector2(35.2175, -2)
+
+[node name="Koopa2" parent="Enemies" instance=ExtResource("7_srww2")]
+position = Vector2(109, -18)
