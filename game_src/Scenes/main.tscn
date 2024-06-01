@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bt5h4wy4thvkh"]
+[gd_scene load_steps=15 format=3 uid="uid://bt5h4wy4thvkh"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprites/GroundBlock.png" id="1_5leks"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprites/HardBlock.png" id="2_8evcl"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://b4ve7ekp1dftj" path="res://Scenes/player.tscn" id="5_qqcol"]
 [ext_resource type="PackedScene" uid="uid://b5atoge5cf65l" path="res://Scenes/brick.tscn" id="6_t1oui"]
 [ext_resource type="PackedScene" uid="uid://cu0u2n525xqdh" path="res://Scenes/koopa.tscn" id="7_srww2"]
+[ext_resource type="PackedScene" uid="uid://dy42n7827mudi" path="res://Scenes/mystery_box.tscn" id="7_u55q6"]
+[ext_resource type="Script" path="res://Scripts/level_manager.gd" id="9_mbxqh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g16ps"]
 texture = ExtResource("1_5leks")
@@ -59,6 +61,12 @@ position = Vector2(-193, 56)
 [node name="Brick" parent="." instance=ExtResource("6_t1oui")]
 position = Vector2(-127, 11)
 
+[node name="MysteryBox" parent="." instance=ExtResource("7_u55q6")]
+position = Vector2(-48.6956, 27.2086)
+
 [node name="Koopa" parent="." instance=ExtResource("7_srww2")]
-position = Vector2(-128.304, -51.2086)
+position = Vector2(59, 6)
 horizontal_speed = 0
+
+[node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
+script = ExtResource("9_mbxqh")
