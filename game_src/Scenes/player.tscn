@@ -281,7 +281,7 @@ animation = &"big_to_shooting"
 script = ExtResource("3_imast")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 20
+collision_mask = 60
 
 [node name="AreaCollisionShape" type="CollisionShape2D" parent="Area2D"]
 shape = ExtResource("2_1m345")
@@ -289,4 +289,6 @@ shape = ExtResource("2_1m345")
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 shape = ExtResource("2_1m345")
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_frame_changed"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

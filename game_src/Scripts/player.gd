@@ -13,6 +13,8 @@ enum PlayerMode {
 }
 
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
+const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/big_mario_collision_shape.tres")
+const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/small_mario_collision_shape.tres")
 
 # References
 @onready var animated_sprite_2d = $AnimatedSprite2D as PlayerAnimatedSprite
@@ -71,6 +73,9 @@ func _physics_process(delta):
 func _on_area_2d_area_entered(area):
 	if area is Enemy:
 		handle_enemy_collision(area)
+	if area is Shroom:
+		handle_shroom_collision(area)
+		area.queue_free()
 		
 func handle_enemy_collision(enemy: Enemy):
 	if enemy == null and is_dead:
@@ -88,6 +93,13 @@ func handle_enemy_collision(enemy: Enemy):
 			spawn_points_labl(enemy)
 		else:
 			die()
+
+func handle_shroom_collision(area: Shroom):
+		if player_mode == PlayerMode.SMALL:
+			set_physics_process(false)
+			animated_sprite_2d.play("small_to_big")
+			set_collision_shape(false)
+		
 
 func spawn_points_labl(enemy: Enemy):
 	var points_label = POINTS_LABEL_SCENE.instantiate()
@@ -113,7 +125,7 @@ func die():
 		death_tween.chain().tween_property(self, "position", position + Vector2(0, 256), 1)
 		death_tween.tween_callback(func (): get_tree().reload_current_scene())
 	else:
-		pass
+		big_to_small()
 	
 
 func handle_movement_collision(collision: KinematicCollision2D):
@@ -121,3 +133,16 @@ func handle_movement_collision(collision: KinematicCollision2D):
 		var collision_angle = rad_to_deg(collision.get_angle())
 		if roundf(collision_angle) == 180:
 			(collision.get_collider() as Block).bump(player_mode) 
+
+func set_collision_shape(is_small: bool):
+	var collision_shape = SMALL_MARIO_COLLISION_SHAPE if is_small else BIG_MARIO_COLLISION_SHAPE
+	area_collision_shape.set_deferred("shape", collision_shape)
+	body_collision_shape.set_deferred("shape", collision_shape)
+
+func big_to_small():
+	set_collision_layer_value(1, false)
+	set_physics_process(false)
+	var animation_name = "small_to_big" if player_mode == PlayerMode.BIG else "small_to_shooting"
+	animated_sprite_2d.play(animation_name, 1.0, true)
+	set_collision_shape(true)
+	

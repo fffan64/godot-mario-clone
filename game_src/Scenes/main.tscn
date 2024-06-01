@@ -63,6 +63,7 @@ position = Vector2(-127, 11)
 
 [node name="MysteryBox" parent="." instance=ExtResource("7_u55q6")]
 position = Vector2(-48.6956, 27.2086)
+bonus_type = 1
 
 [node name="Koopa" parent="." instance=ExtResource("7_srww2")]
 position = Vector2(59, 6)

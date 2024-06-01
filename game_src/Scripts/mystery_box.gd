@@ -10,6 +10,7 @@ enum BonusType {
 
 # Bonus references
 const COIN_SCENE = preload("res://Scenes/coin.tscn")
+const SHROOM_SCENE = preload("res://Scenes/shroom.tscn")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @export var bonus_type: BonusType = BonusType.COIN
@@ -44,7 +45,10 @@ func make_empty():
 	animated_sprite_2d.play("empty")
 
 func spawn_shroom():
-	pass
+	var shroom = SHROOM_SCENE.instantiate()
+	shroom.global_position = global_position
+	get_tree().root.add_child(shroom)
+	
 
 func spawn_coin():
 	var coin = COIN_SCENE.instantiate()
