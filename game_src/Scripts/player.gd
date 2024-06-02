@@ -107,10 +107,11 @@ func _on_area_2d_area_entered(area):
 func handle_enemy_collision(enemy: Enemy):
 	if enemy == null and is_dead:
 		return
-		
+	var level_manager = get_tree().get_first_node_in_group("level_manager")
 	if is_instance_of(enemy, Koopa) and (enemy as Koopa).in_a_shell:
 		(enemy as Koopa).on_stomp(global_position)
 		spawn_points_labl(enemy)
+		level_manager.on_points_scored(100)
 	else:
 		var angle_of_collision = rad_to_deg(position.angle_to_point(enemy.position))
 		
@@ -118,6 +119,7 @@ func handle_enemy_collision(enemy: Enemy):
 			enemy.die()
 			on_enemy_stomped()
 			spawn_points_labl(enemy)
+			level_manager.on_points_scored(100)
 		else:
 			die()
 		
@@ -201,8 +203,11 @@ func handle_pipe_collision():
 	pipe_tween.tween_callback(switch_to_underground)
 	
 func switch_to_underground():
-	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
+	var level_manager = get_tree().get_first_node_in_group("level_manager")
 	SceneData.player_mode = player_mode
+	SceneData.points = level_manager.points
+	SceneData.coins = level_manager.coins
+	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
 
 func handle_pipe_connector_entrance_collision():
 	set_physics_process(false)
@@ -211,4 +216,8 @@ func handle_pipe_connector_entrance_collision():
 	pipe_tween.tween_callback(switch_to_main)
 
 func switch_to_main():
+	var level_manager = get_tree().get_first_node_in_group("level_manager")
+	SceneData.player_mode = player_mode
+	SceneData.points = level_manager.points
+	SceneData.coins = level_manager.coins
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")

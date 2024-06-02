@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ctfutih1psaet"]
+[gd_scene load_steps=16 format=3 uid="uid://ctfutih1psaet"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprites/GroundBlock.png" id="1_x5m81"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprites/HardBlock.png" id="2_slbuu"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://csgfs3k7ub28c" path="res://Scenes/pipe.tscn" id="7_c3p55"]
 [ext_resource type="Script" path="res://Scripts/level_manager.gd" id="8_xe7tv"]
 [ext_resource type="PackedScene" uid="uid://ch2vh7sohrscv" path="res://Scenes/collectable_coin.tscn" id="9_e3g22"]
+[ext_resource type="PackedScene" uid="uid://iffxdwnxwwdx" path="res://Scenes/ui.tscn" id="10_3he7i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g16ps"]
 texture = ExtResource("1_x5m81")
@@ -76,8 +77,12 @@ height = 160
 position = Vector2(176, 56)
 return_point = Vector2(112, 56)
 
-[node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
+[node name="UI" parent="." instance=ExtResource("10_3he7i")]
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("ui", "player") groups=["level_manager"]]
 script = ExtResource("8_xe7tv")
+ui = NodePath("../UI")
+player = NodePath("../Player")
 
 [node name="Coins" type="Node" parent="."]
 

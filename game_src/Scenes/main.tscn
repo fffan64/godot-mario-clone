@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprites/HardBlock.png" id="2_8evcl"]
 [ext_resource type="PackedScene" uid="uid://b4ve7ekp1dftj" path="res://Scenes/player.tscn" id="5_qqcol"]
 [ext_resource type="PackedScene" uid="uid://b5atoge5cf65l" path="res://Scenes/brick.tscn" id="6_t1oui"]
-[ext_resource type="PackedScene" uid="uid://cu0u2n525xqdh" path="res://Scenes/koopa.tscn" id="7_srww2"]
 [ext_resource type="PackedScene" uid="uid://dy42n7827mudi" path="res://Scenes/mystery_box.tscn" id="7_u55q6"]
+[ext_resource type="PackedScene" uid="uid://iffxdwnxwwdx" path="res://Scenes/ui.tscn" id="9_7jnpb"]
 [ext_resource type="Script" path="res://Scripts/level_manager.gd" id="9_mbxqh"]
 [ext_resource type="PackedScene" uid="uid://csgfs3k7ub28c" path="res://Scenes/pipe.tscn" id="10_cg13l"]
 
@@ -49,12 +49,15 @@ position = Vector2(-128, 24)
 position = Vector2(-56, 24)
 bonus_type = 2
 
-[node name="Koopa" parent="." instance=ExtResource("7_srww2")]
-position = Vector2(-128, -16)
-horizontal_speed = 0
+[node name="MysteryBox2" parent="." instance=ExtResource("7_u55q6")]
+position = Vector2(-40, 24)
 
-[node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
+[node name="UI" parent="." instance=ExtResource("9_7jnpb")]
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("ui", "player") groups=["level_manager"]]
 script = ExtResource("9_mbxqh")
+ui = NodePath("../UI")
+player = NodePath("../Player")
 
 [node name="Pipe" parent="." instance=ExtResource("10_cg13l")]
 position = Vector2(112, 56)
