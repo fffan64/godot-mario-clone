@@ -10,6 +10,10 @@ var coins = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	player.castle_entered.connect(ui.on_finish)
+	if SceneData.player_mode:
+		player.player_mode = SceneData.player_mode
+		player.set_collision_shape(SceneData.player_mode == Player.PlayerMode.SMALL)
 	if SceneData.points != 0:
 		ui.set_score(SceneData.points)
 		points = SceneData.points
@@ -17,9 +21,9 @@ func _ready():
 		coins = SceneData.coins
 		ui.set_coins(SceneData.coins)
 		coins = SceneData.coins
-	player.points_scored.connect(on_point_scored)
+	player.points_scored.connect(on_points_scored)
 
-func on_point_scored(points_scored: int):
+func on_points_scored(points_scored: int):
 	points += points_scored
 	ui.set_score(points)
 	

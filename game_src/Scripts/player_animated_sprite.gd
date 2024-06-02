@@ -5,6 +5,9 @@ class_name PlayerAnimatedSprite
 var frame_count = 0
 
 func trigger(velocity: Vector2, direction: int, player_mode: Player.PlayerMode):
+	if animation == "shoot":
+		await animation_finished
+	
 	var animation_prefix = Player.PlayerMode.keys()[player_mode].to_snake_case()
 	
 	if not get_parent().is_on_floor():
@@ -36,7 +39,14 @@ func _on_animation_finished():
 				get_parent().player_mode = Player.PlayerMode.BIG
 	if animation == "small_to_shooting" or animation == "big_to_shooting":
 		reset_player_properties()
-		get_parent().player_mode = Player.PlayerMode.SHOOTING
+		match get_parent().player_mode:
+			Player.PlayerMode.SHOOTING:
+				get_parent().player_mode = Player.PlayerMode.SMALL
+			Player.PlayerMode.SMALL:
+				get_parent().player_mode = Player.PlayerMode.SHOOTING
+			Player.PlayerMode.BIG:
+				get_parent().player_mode = Player.PlayerMode.SHOOTING
+
 		
 	if animation == "shoot":
 		get_parent().set_physics_process(true)
@@ -57,3 +67,8 @@ func _on_frame_changed():
 			offset = Vector2(0, 0 if player_mode == Player.PlayerMode.BIG else -8)
 		else:
 			offset = Vector2(0, 8 if player_mode == Player.PlayerMode.BIG else 0)
+
+func on_pole(player_mode: Player.PlayerMode):
+	var animation_prefix = Player.PlayerMode.keys()[player_mode].to_snake_case()
+	play("%s_pole" % animation_prefix)
+	

@@ -3,6 +3,7 @@ extends CharacterBody2D
 class_name Player
 
 signal points_scored(points: int) 
+signal castle_entered
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -25,10 +26,12 @@ const FIREBALL_SCENE = preload("res://Scenes/fireball.tscn")
 @onready var area_collision_shape = $Area2D/AreaCollisionShape 
 @onready var body_collision_shape = $BodyCollisionShape
 @onready var shooting_point = $ShootingPoint
+@onready var slide_down_finished_position = $"../SlideDownFinishedPosition"
+@onready var land_down_position = $"../LandDownPosition" as Marker2D
 
 @export_group("Locomotion")
 @export var run_speed_damping = 0.5
-@export var speed = 200.0
+@export var speed = 300.0
 @export var jump_velocity = -350
 @export_group("")
 
@@ -43,14 +46,25 @@ const FIREBALL_SCENE = preload("res://Scenes/fireball.tscn")
 @export var should_camera_sync: bool = true
 @export_group("")
 
+@export var castle_path: PathFollow2D
+
 var player_mode = PlayerMode.SMALL
 
 # Player states flags
 var is_dead = false
+var is_on_path = false
 
 func _ready():
+	set_collision_shape(true)
 	if SceneData.return_point != null and SceneData.return_point != Vector2.ZERO:
-		global_position = SceneData.return_point
+		global_position = SceneData.return_point - Vector2(0, -16)
+		player_mode = SceneData.player_mode
+		SceneData.return_point = Vector2.ZERO
+		animated_sprite_2d.trigger(velocity, 1, player_mode)
+		set_physics_process(false)
+		var pipe_tween = get_tree().create_tween()
+		pipe_tween.tween_property(self, "position", position + Vector2(0, -32), 1)
+		pipe_tween.tween_callback(func (): set_physics_process(true))
 
 func _physics_process(delta):
 	
@@ -93,6 +107,12 @@ func _physics_process(delta):
 func _process(delta):
 	if global_position.x > camera_sync.global_position.x and should_camera_sync:
 		camera_sync.global_position.x = global_position.x
+		
+	if is_on_path:
+		castle_path.progress += delta * speed / 2
+		if castle_path.progress_ratio > 0.97:
+			is_on_path = false
+			land_down()
 
 func _on_area_2d_area_entered(area):
 	if area is Enemy:
@@ -190,7 +210,7 @@ func big_to_small():
 	
 func shoot():
 	animated_sprite_2d.play("shoot")
-	set_physics_process(false)
+	#set_physics_process(false)
 	var fireball = FIREBALL_SCENE.instantiate()
 	fireball.direction = sign(animated_sprite_2d.scale.x)
 	fireball.global_position = shooting_point.global_position
@@ -221,3 +241,43 @@ func switch_to_main():
 	SceneData.points = level_manager.points
 	SceneData.coins = level_manager.coins
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+
+func on_pole_hit():
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	if is_on_path:
+		return
+		
+	animated_sprite_2d.on_pole(player_mode)
+	
+	var slide_down_tween = get_tree().create_tween()
+	var slide_down_position = slide_down_finished_position.position
+	slide_down_tween.tween_property(self, "position", slide_down_position, 2 )
+	slide_down_tween.tween_callback(slide_down_finished)
+	
+func slide_down_finished():
+	var animation_prefix = Player.PlayerMode.keys()[player_mode].to_snake_case()
+	is_on_path = true
+	animated_sprite_2d.play("%s_jump" % animation_prefix)
+	reparent(castle_path)
+
+func land_down():
+	reparent(get_tree().root.get_node("main"))
+	var distance_to_marker = (land_down_position.position - position).y
+	var land_tween = get_tree().create_tween()
+	land_tween.tween_property(self, "position", position + Vector2(0, distance_to_marker - get_half_sprite_size()), .5)
+	land_tween.tween_callback(go_to_castle)
+	
+func go_to_castle():
+	var animation_prefix = Player.PlayerMode.keys()[player_mode].to_snake_case()
+	animated_sprite_2d.play("%s_run" % animation_prefix)
+	var run_to_castle_tween = get_tree().create_tween()
+	run_to_castle_tween.tween_property(self, "position", position + Vector2(60, 0), .5)
+	run_to_castle_tween.tween_callback(finish)
+
+func finish():
+	queue_free()
+	castle_entered.emit()
+
+func get_half_sprite_size():
+	return 8 if player_mode == PlayerMode.SMALL else 16
