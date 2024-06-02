@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3k52fvnbg7wb"]
+[gd_scene load_steps=8 format=3 uid="uid://b3k52fvnbg7wb"]
 
 [ext_resource type="Texture2D" uid="uid://d2wjjqv82whrs" path="res://Assets/Sprites/Flag.png" id="1_1g856"]
 [ext_resource type="Script" path="res://Scripts/flag.gd" id="1_jrerc"]
@@ -6,6 +6,43 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nb42r"]
 size = Vector2(5, 150)
+
+[sub_resource type="Animation" id="Animation_qvynd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlagSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, -144)]
+}
+
+[sub_resource type="Animation" id="Animation_y0ayh"]
+resource_name = "flag_down"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlagSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-8, -144), Vector2(-8, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a1upc"]
+_data = {
+"RESET": SubResource("Animation_qvynd"),
+"flag_down": SubResource("Animation_y0ayh")
+}
 
 [node name="Flag" type="Area2D"]
 collision_layer = 32
@@ -22,5 +59,10 @@ texture = ExtResource("2_sm7pr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -80)
 shape = SubResource("RectangleShape2D_nb42r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a1upc")
+}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

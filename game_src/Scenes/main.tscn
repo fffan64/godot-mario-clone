@@ -49,7 +49,7 @@ layer_0/tile_data = PackedInt32Array(524274, 4, 0, 524275, 4, 0, 524276, 4, 0, 5
 zoom = Vector2(2.75, 2.75)
 
 [node name="Player" parent="." node_paths=PackedStringArray("camera_sync", "castle_path") instance=ExtResource("5_qqcol")]
-position = Vector2(-128, 40)
+position = Vector2(1009, 24)
 camera_sync = NodePath("../Camera2D")
 castle_path = NodePath("../Path2D/PathFollow2D")
 
@@ -71,10 +71,10 @@ position = Vector2(0, 24)
 
 [node name="MysteryBox2" parent="Environment/Platforms/Platform1" instance=ExtResource("7_u55q6")]
 position = Vector2(16, 0)
+bonus_type = 1
 
 [node name="MysteryBox3" parent="Environment/Platforms/Platform1" instance=ExtResource("7_u55q6")]
 position = Vector2(48, 0)
-bonus_type = 1
 
 [node name="Brick2" parent="Environment/Platforms/Platform1" instance=ExtResource("6_t1oui")]
 position = Vector2(64, 0)

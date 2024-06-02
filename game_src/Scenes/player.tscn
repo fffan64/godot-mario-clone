@@ -1,8 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://b4ve7ekp1dftj"]
+[gd_scene load_steps=29 format=3 uid="uid://b4ve7ekp1dftj"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_7olbh"]
 [ext_resource type="Texture2D" uid="uid://d3jwm15et3t22" path="res://Assets/Sprites/Mario_Small_Idle.png" id="1_fta4f"]
-[ext_resource type="Shape2D" uid="uid://cyevtd060sb6h" path="res://Resources/CollisionShapes/small_mario_collision_shape.tres" id="2_1m345"]
 [ext_resource type="Texture2D" uid="uid://ct8uqpacoxaq1" path="res://Assets/Sprites/Mario_Big_Idle.png" id="2_q83k8"]
 [ext_resource type="Texture2D" uid="uid://c3njnoy5owfh3" path="res://Assets/Sprites/Mario_Big_Jump.png" id="3_3ia7a"]
 [ext_resource type="Script" path="res://Scripts/player_animated_sprite.gd" id="3_imast"]
@@ -26,6 +25,8 @@
 [ext_resource type="Texture2D" uid="uid://b7pkrn5h1n5lm" path="res://Assets/Sprites/Mario_Small_Run1.png" id="18_cx8u3"]
 [ext_resource type="Texture2D" uid="uid://dlhg7nbxeials" path="res://Assets/Sprites/Mario_Small_Run2.png" id="19_bat7a"]
 [ext_resource type="Texture2D" uid="uid://d01eopk6c4cx1" path="res://Assets/Sprites/Mario_Small_Run3.png" id="20_qx4dx"]
+[ext_resource type="Shape2D" uid="uid://c3606a6ua7ary" path="res://Resources/CollisionShapes/small_mario_collision_shape_2.tres" id="26_yq6qk"]
+[ext_resource type="Shape2D" uid="uid://ntoqdlw71t6y" path="res://Resources/CollisionShapes/big_mario_collision_shape_2.tres" id="27_kv0bn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_oj48s"]
 animations = [{
@@ -286,11 +287,11 @@ position = Vector2(0, -8)
 collision_mask = 60
 
 [node name="AreaCollisionShape" type="CollisionShape2D" parent="Area2D"]
-shape = ExtResource("2_1m345")
+shape = ExtResource("26_yq6qk")
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
-shape = ExtResource("2_1m345")
+shape = ExtResource("27_kv0bn")
 
 [node name="ShootingPoint" type="Marker2D" parent="."]
 position = Vector2(7, -13)

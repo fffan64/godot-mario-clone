@@ -8,21 +8,20 @@ size = Vector2(16, 16)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wrmcy"]
 particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 1, 1)
-angle_min = -180.0
-angle_max = 180.0
-direction = Vector3(1, 5, 0)
-spread = 180.0
-initial_velocity_min = 10.0
-initial_velocity_max = 12.0
+direction = Vector3(0, -1, 0)
+spread = 50.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
 gravity = Vector3(0, 98, 0)
 scale_min = 0.25
 scale_max = 0.25
 
 [node name="Brick" type="StaticBody2D"]
+z_index = 1
 collision_layer = 16
-collision_mask = 13
+collision_mask = 45
 script = ExtResource("1_tdwmp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -33,7 +32,7 @@ shape = SubResource("RectangleShape2D_grhja")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, -10)
-collision_mask = 4
+collision_mask = 44
 collide_with_areas = true
 collide_with_bodies = false
 
@@ -44,5 +43,6 @@ process_material = SubResource("ParticleProcessMaterial_wrmcy")
 texture = ExtResource("1_rp3rl")
 one_shot = true
 speed_scale = 2.0
+explosiveness = 1.0
 
 [connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

@@ -16,8 +16,8 @@ enum PlayerMode {
 const PIPE_ENTER_THRESHOLD = 10
 
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
-const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/big_mario_collision_shape.tres")
-const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/small_mario_collision_shape.tres")
+const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/big_mario_collision_shape_2.tres")
+const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/small_mario_collision_shape_2.tres")
 const FIREBALL_SCENE = preload("res://Scenes/fireball.tscn")
 
 # References
@@ -280,4 +280,5 @@ func finish():
 	castle_entered.emit()
 
 func get_half_sprite_size():
-	return 8 if player_mode == PlayerMode.SMALL else 16
+	#return 8 if player_mode == PlayerMode.SMALL else 16
+	return 0 if player_mode == PlayerMode.SMALL else 8
