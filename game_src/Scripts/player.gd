@@ -12,6 +12,8 @@ enum PlayerMode {
 	SHOOTING
 }
 
+const PIPE_ENTER_THRESHOLD = 10
+
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
 const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/big_mario_collision_shape.tres")
 const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/CollisionShapes/small_mario_collision_shape.tres")
@@ -46,6 +48,9 @@ var player_mode = PlayerMode.SMALL
 # Player states flags
 var is_dead = false
 
+func _ready():
+	if SceneData.return_point != null and SceneData.return_point != Vector2.ZERO:
+		global_position = SceneData.return_point
 
 func _physics_process(delta):
 	
@@ -161,7 +166,13 @@ func handle_movement_collision(collision: KinematicCollision2D):
 	if collision.get_collider() is Block:
 		var collision_angle = rad_to_deg(collision.get_angle())
 		if roundf(collision_angle) == 180:
-			(collision.get_collider() as Block).bump(player_mode) 
+			(collision.get_collider() as Block).bump(player_mode)
+			
+	if collision.get_collider() is Pipe:
+		var collision_angle = rad_to_deg(collision.get_angle())
+		if roundf(collision_angle) == 0 and Input.is_action_just_pressed("down") and absf(collision.get_collider().position.x - position.x < PIPE_ENTER_THRESHOLD and collision.get_collider().is_traversable):
+			print("GO DOWN PIPE !")
+			handle_pipe_collision()
 
 func set_collision_shape(is_small: bool):
 	var collision_shape = SMALL_MARIO_COLLISION_SHAPE if is_small else BIG_MARIO_COLLISION_SHAPE
@@ -182,3 +193,22 @@ func shoot():
 	fireball.direction = sign(animated_sprite_2d.scale.x)
 	fireball.global_position = shooting_point.global_position
 	get_tree().root.add_child(fireball)
+
+func handle_pipe_collision():
+	set_physics_process(false)
+	var pipe_tween = get_tree().create_tween()
+	pipe_tween.tween_property(self, "position", position + Vector2(0, 32), 1)
+	pipe_tween.tween_callback(switch_to_underground)
+	
+func switch_to_underground():
+	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
+	SceneData.player_mode = player_mode
+
+func handle_pipe_connector_entrance_collision():
+	set_physics_process(false)
+	var pipe_tween = get_tree().create_tween()
+	pipe_tween.tween_property(self, "position", position + Vector2(32, 0), 1)
+	pipe_tween.tween_callback(switch_to_main)
+
+func switch_to_main():
+	get_tree().change_scene_to_file("res://Scenes/main.tscn")

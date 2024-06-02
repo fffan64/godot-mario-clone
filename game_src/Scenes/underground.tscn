@@ -1,0 +1,144 @@
+[gd_scene load_steps=15 format=3 uid="uid://ctfutih1psaet"]
+
+[ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprites/GroundBlock.png" id="1_x5m81"]
+[ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprites/HardBlock.png" id="2_slbuu"]
+[ext_resource type="Texture2D" uid="uid://dbhkvad8kmca" path="res://Assets/Sprites/UndergroundBlock.png" id="3_go2q6"]
+[ext_resource type="Texture2D" uid="uid://dtkrgfs1x5qrr" path="res://Assets/Sprites/UndergroundBrick.png" id="4_v5be6"]
+[ext_resource type="PackedScene" uid="uid://b4ve7ekp1dftj" path="res://Scenes/player.tscn" id="5_y2ycn"]
+[ext_resource type="PackedScene" uid="uid://bteftbsp5y811" path="res://Scenes/pipe_connector.tscn" id="6_r1gc5"]
+[ext_resource type="PackedScene" uid="uid://csgfs3k7ub28c" path="res://Scenes/pipe.tscn" id="7_c3p55"]
+[ext_resource type="Script" path="res://Scripts/level_manager.gd" id="8_xe7tv"]
+[ext_resource type="PackedScene" uid="uid://ch2vh7sohrscv" path="res://Scenes/collectable_coin.tscn" id="9_e3g22"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g16ps"]
+texture = ExtResource("1_x5m81")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n1cse"]
+texture = ExtResource("2_slbuu")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sb3mw"]
+texture = ExtResource("3_go2q6")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pdcpj"]
+texture = ExtResource("4_v5be6")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_07n6s"]
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_g16ps")
+sources/1 = SubResource("TileSetAtlasSource_n1cse")
+sources/2 = SubResource("TileSetAtlasSource_sb3mw")
+sources/3 = SubResource("TileSetAtlasSource_pdcpj")
+
+[node name="main" type="Node"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -224.0
+offset_top = -136.0
+offset_right = -184.0
+offset_bottom = -96.0
+scale = Vector2(11.3373, 6.85179)
+color = Color(0, 0, 0, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.75, 2.75)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_07n6s")
+format = 2
+layer_0/tile_data = PackedInt32Array(393204, 2, 0, 458740, 2, 0, 524276, 2, 0, 393205, 2, 0, 458741, 2, 0, 524277, 2, 0, 393206, 2, 0, 458742, 2, 0, 524278, 2, 0, 393207, 2, 0, 458743, 2, 0, 524279, 2, 0, 393208, 2, 0, 458744, 2, 0, 524280, 2, 0, 393209, 2, 0, 458745, 2, 0, 524281, 2, 0, 393210, 2, 0, 458746, 2, 0, 524282, 2, 0, 393211, 2, 0, 458747, 2, 0, 524283, 2, 0, 393212, 2, 0, 458748, 2, 0, 524284, 2, 0, 393213, 2, 0, 458749, 2, 0, 524285, 2, 0, 393214, 2, 0, 458750, 2, 0, 524286, 2, 0, 393215, 2, 0, 458751, 2, 0, 524287, 2, 0, 327680, 2, 0, 393216, 2, 0, 458752, 2, 0, 327681, 2, 0, 393217, 2, 0, 458753, 2, 0, 327682, 2, 0, 393218, 2, 0, 458754, 2, 0, 327683, 2, 0, 393219, 2, 0, 458755, 2, 0, 327684, 2, 0, 393220, 2, 0, 458756, 2, 0, 327685, 2, 0, 393221, 2, 0, 458757, 2, 0, 327686, 2, 0, 393222, 2, 0, 458758, 2, 0, 327687, 2, 0, 393223, 2, 0, 458759, 2, 0, 327688, 2, 0, 393224, 2, 0, 458760, 2, 0, 327689, 2, 0, 393225, 2, 0, 458761, 2, 0, 327690, 2, 0, 393226, 2, 0, 458762, 2, 0, 327691, 2, 0, 393227, 2, 0, 458763, 2, 0, 327692, 2, 0, 393228, 2, 0, 458764, 2, 0, 589812, 2, 0, 589813, 2, 0, 589814, 2, 0, 589815, 2, 0, 589816, 2, 0, 589817, 2, 0, 589818, 2, 0, 589819, 2, 0, 589820, 2, 0, 589821, 2, 0, 589822, 2, 0, 589823, 2, 0, 524288, 2, 0, 524289, 2, 0, 524290, 2, 0, 524291, 2, 0, 524292, 2, 0, 524293, 2, 0, 524294, 2, 0, 524295, 2, 0, 524296, 2, 0, 524297, 2, 0, 524298, 2, 0, 524299, 2, 0, 524300, 2, 0, -458764, 3, 0, -393228, 3, 0, -327692, 3, 0, -262156, 3, 0, -196620, 3, 0, -131084, 3, 0, -65548, 3, 0, -12, 3, 0, 65524, 3, 0, 131060, 3, 0, 196596, 3, 0, 262132, 3, 0, 327668, 3, 0, 131064, 3, 0, 196600, 3, 0, 262136, 3, 0, 327672, 3, 0, 131065, 3, 0, 196601, 3, 0, 262137, 3, 0, 327673, 3, 0, 131066, 3, 0, 196602, 3, 0, 262138, 3, 0, 327674, 3, 0, 131067, 3, 0, 196603, 3, 0, 262139, 3, 0, 327675, 3, 0, 131068, 3, 0, 196604, 3, 0, 262140, 3, 0, 327676, 3, 0, 131069, 3, 0, 196605, 3, 0, 262141, 3, 0, 327677, 3, 0, 131070, 3, 0, 196606, 3, 0, 262142, 3, 0, 327678, 3, 0, 131071, 3, 0, 196607, 3, 0, 262143, 3, 0, 327679, 3, 0, 65536, 3, 0, 131072, 3, 0, 196608, 3, 0, 262144, 3, 0, 65537, 3, 0, 131073, 3, 0, 196609, 3, 0, 262145, 3, 0, 65538, 3, 0, 131074, 3, 0, 196610, 3, 0, 262146, 3, 0, 65539, 3, 0, 131075, 3, 0, 196611, 3, 0, 262147, 3, 0, 65540, 3, 0, 131076, 3, 0, 196612, 3, 0, 262148, 3, 0, 65541, 3, 0, 131077, 3, 0, 196613, 3, 0, 262149, 3, 0, -458760, 3, 0, -458759, 3, 0, -458758, 3, 0, -458757, 3, 0, -458756, 3, 0, -458755, 3, 0, -458754, 3, 0, -458753, 3, 0, -524288, 3, 0, -524287, 3, 0, -524286, 3, 0, -524285, 3, 0, -524284, 3, 0, -524283, 3, 0, -524282, 3, 0, -524281, 3, 0, -524280, 3, 0)
+
+[node name="Player" parent="." node_paths=PackedStringArray("camera_sync") instance=ExtResource("5_y2ycn")]
+position = Vector2(-152, -112)
+camera_sync = NodePath("../Camera2D")
+should_camera_sync = false
+
+[node name="Pipe" parent="." instance=ExtResource("7_c3p55")]
+position = Vector2(192, -120)
+height = 160
+
+[node name="PipeConnector" parent="." instance=ExtResource("6_r1gc5")]
+position = Vector2(176, 56)
+return_point = Vector2(112, 56)
+
+[node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
+script = ExtResource("8_xe7tv")
+
+[node name="Coins" type="Node" parent="."]
+
+[node name="CollectableCoin" parent="Coins" instance=ExtResource("9_e3g22")]
+
+[node name="CollectableCoin2" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-24, 0)
+
+[node name="CollectableCoin3" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-48, 0)
+
+[node name="CollectableCoin4" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-72, 0)
+
+[node name="CollectableCoin5" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-96, 0)
+
+[node name="CollectableCoin6" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(24, 0)
+
+[node name="CollectableCoin7" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(48, 0)
+
+[node name="CollectableCoin8" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(72, 0)
+
+[node name="CollectableCoin9" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(64, -24)
+
+[node name="CollectableCoin10" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(40, -24)
+
+[node name="CollectableCoin11" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(16, -24)
+
+[node name="CollectableCoin12" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-8, -24)
+
+[node name="CollectableCoin13" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-32, -24)
+
+[node name="CollectableCoin14" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-56, -24)
+
+[node name="CollectableCoin15" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-80, -24)
+
+[node name="CollectableCoin16" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-64, -48)
+
+[node name="CollectableCoin17" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-40, -48)
+
+[node name="CollectableCoin18" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(-16, -48)
+
+[node name="CollectableCoin19" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(8, -48)
+
+[node name="CollectableCoin20" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(32, -48)
+
+[node name="CollectableCoin21" parent="Coins" instance=ExtResource("9_e3g22")]
+position = Vector2(56, -48)
