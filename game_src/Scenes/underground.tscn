@@ -75,7 +75,7 @@ height = 160
 
 [node name="PipeConnector" parent="." instance=ExtResource("6_r1gc5")]
 position = Vector2(176, 56)
-return_point = Vector2(472, 16)
+return_point = Vector2(2320, 56)
 
 [node name="UI" parent="." instance=ExtResource("10_3he7i")]
 
